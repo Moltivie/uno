@@ -18,14 +18,21 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-import os
 import json
+import os
 
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Try to load config.json as fallback
+config = {}
 try:
     with open("config.json", "r") as f:
         config = json.load(f)
 except FileNotFoundError:
-    config = {}
+    pass
 
 TOKEN = os.getenv("TOKEN", config.get("token"))
 WORKERS = int(os.getenv("WORKERS", config.get("workers", 32)))
