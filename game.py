@@ -25,8 +25,10 @@ from datetime import datetime
 from deck import Deck
 import card as c
 
+
 class Game(object):
-    """ This class represents a game of UNO """
+    """This class represents a game of UNO"""
+
     current_player = None
     reversed = False
     choosing_color = False

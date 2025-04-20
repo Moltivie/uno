@@ -19,44 +19,51 @@
 
 
 # Colors
-RED = 'r'
-BLUE = 'b'
-GREEN = 'g'
-YELLOW = 'y'
-BLACK = 'x'
+RED = "r"
+BLUE = "b"
+GREEN = "g"
+YELLOW = "y"
+BLACK = "x"
 
 COLORS = (RED, BLUE, GREEN, YELLOW)
 
-COLOR_ICONS = {
-    RED: '❤️',
-    BLUE: '💙',
-    GREEN: '💚',
-    YELLOW: '💛',
-    BLACK: '⬛️'
-}
+COLOR_ICONS = {RED: "❤️", BLUE: "💙", GREEN: "💚", YELLOW: "💛", BLACK: "⬛️"}
 
 # Values
-ZERO = '0'
-ONE = '1'
-TWO = '2'
-THREE = '3'
-FOUR = '4'
-FIVE = '5'
-SIX = '6'
-SEVEN = '7'
-EIGHT = '8'
-NINE = '9'
-DRAW_TWO = 'draw'
-REVERSE = 'reverse'
-SKIP = 'skip'
+ZERO = "0"
+ONE = "1"
+TWO = "2"
+THREE = "3"
+FOUR = "4"
+FIVE = "5"
+SIX = "6"
+SEVEN = "7"
+EIGHT = "8"
+NINE = "9"
+DRAW_TWO = "draw"
+REVERSE = "reverse"
+SKIP = "skip"
 
-VALUES = (ZERO, ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, DRAW_TWO,
-          REVERSE, SKIP)
+VALUES = (
+    ZERO,
+    ONE,
+    TWO,
+    THREE,
+    FOUR,
+    FIVE,
+    SIX,
+    SEVEN,
+    EIGHT,
+    NINE,
+    DRAW_TWO,
+    REVERSE,
+    SKIP,
+)
 WILD_VALUES = (ONE, TWO, THREE, FOUR, FIVE, DRAW_TWO, REVERSE, SKIP)
 
 # Special cards
-CHOOSE = 'colorchooser'
-DRAW_FOUR = 'draw_four'
+CHOOSE = "colorchooser"
+DRAW_FOUR = "draw_four"
 
 SPECIALS = (CHOOSE, DRAW_FOUR)
 
@@ -321,16 +328,17 @@ class Card(object):
         if self.special:
             return self.special
         else:
-            return '%s_%s' % (self.color, self.value)
+            return "%s_%s" % (self.color, self.value)
 
     def __repr__(self):
         if self.special:
-            return '%s%s%s' % (COLOR_ICONS.get(self.color, ''),
-                               COLOR_ICONS[BLACK],
-                               ' '.join([s.capitalize()
-                                         for s in self.special.split('_')]))
+            return "%s%s%s" % (
+                COLOR_ICONS.get(self.color, ""),
+                COLOR_ICONS[BLACK],
+                " ".join([s.capitalize() for s in self.special.split("_")]),
+            )
         else:
-            return '%s%s' % (COLOR_ICONS[self.color], self.value.capitalize())
+            return "%s%s" % (COLOR_ICONS[self.color], self.value.capitalize())
 
     def __eq__(self, other):
         """Needed for sorting the cards"""
@@ -344,7 +352,7 @@ class Card(object):
 def from_str(string):
     """Decodes a Card object from a string"""
     if string not in SPECIALS:
-        color, value = string.split('_')
+        color, value = string.split("_")
         return Card(color, value)
     else:
         return Card(None, None, string)

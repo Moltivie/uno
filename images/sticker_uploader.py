@@ -1,6 +1,7 @@
 """
 Script to upload a sticker pack to Telegram.
 """
+
 import asyncio
 import json
 from pathlib import Path
@@ -79,7 +80,9 @@ async def get_sticker_set():
 
     sticker_set = await client(
         GetStickerSetRequest(
-            InputStickerSetID(id=sticker_set_ref.id, access_hash=sticker_set_ref.access_hash),
+            InputStickerSetID(
+                id=sticker_set_ref.id, access_hash=sticker_set_ref.access_hash
+            ),
             hash=0,
         )
     )
@@ -172,7 +175,9 @@ async def main():
     await client.send_message(stickers_bot, sticker_config["pack_name"])
 
     # Wait for the user to add the sticker pack to their account
-    print("Please add the sticker pack to your account by clicking the link posted by @Stickers")
+    print(
+        "Please add the sticker pack to your account by clicking the link posted by @Stickers"
+    )
     print(f"https://t.me/addstickers/{sticker_config['pack_name']}")
     await asyncio.sleep(10)
 

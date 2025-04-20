@@ -4,7 +4,6 @@ Script to build the classic colorblind deck from the classic deck.
 Requires imagemagick to be installed and in the path.
 """
 
-
 from pathlib import Path
 from shutil import copyfile
 from subprocess import run
@@ -53,7 +52,16 @@ def convert_png_to_webp(suffix):
             card = f"{color}_{number}"
             png = COLORBLIND_DIR / f"png{suffix}" / f"{card}.png"
             webp = COLORBLIND_DIR / f"webp{suffix}" / f"{card}.webp"
-            run(["magick", "convert", str(png), "-define", "webp:lossless=true", str(webp)])
+            run(
+                [
+                    "magick",
+                    "convert",
+                    str(png),
+                    "-define",
+                    "webp:lossless=true",
+                    str(webp),
+                ]
+            )
 
     for special in SPECIALS:
         png = COLORBLIND_DIR / f"png{suffix}" / f"{special}.png"

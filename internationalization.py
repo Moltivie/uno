@@ -26,22 +26,22 @@ from pony.orm import db_session
 from user_setting import UserSetting
 from shared_vars import gm
 
-GETTEXT_DOMAIN = 'unobot'
-GETTEXT_DIR = 'locales'
+GETTEXT_DOMAIN = "unobot"
+GETTEXT_DIR = "locales"
 
 
 class _Underscore(object):
     """Class to emulate flufl.i18n behaviour, but with plural support"""
+
     def __init__(self):
         self.translators = {
             locale: gettext.GNUTranslations(
-                open(gettext.find(
-                    GETTEXT_DOMAIN, GETTEXT_DIR, languages=[locale]
-                ), 'rb')
+                open(
+                    gettext.find(GETTEXT_DOMAIN, GETTEXT_DIR, languages=[locale]), "rb"
+                )
             )
-            for locale
-            in available_locales.keys()
-            if locale != 'en_US'  # No translation file for en_US
+            for locale in available_locales.keys()
+            if locale != "en_US"  # No translation file for en_US
         }
         self.locale_stack = list()
 
@@ -78,6 +78,7 @@ class _Underscore(object):
         else:
             return translator.ngettext(singular, plural, n)
 
+
 _ = _Underscore()
 
 
@@ -86,7 +87,7 @@ def __(singular, plural=None, n=1, multi=False):
     translations = list()
 
     if not multi and len(set(_.locale_stack)) >= 1:
-        translations.append(_(singular, plural, n, 'en_US'))
+        translations.append(_(singular, plural, n, "en_US"))
 
     else:
         for locale in _.locale_stack:
@@ -95,7 +96,7 @@ def __(singular, plural=None, n=1, multi=False):
             if translation not in translations:
                 translations.append(translation)
 
-    return '\n'.join(translations)
+    return "\n".join(translations)
 
 
 def user_locale(func):
@@ -107,14 +108,15 @@ def user_locale(func):
         with db_session:
             us = UserSetting.get(id=user.id)
 
-        if us and us.lang != 'en':
+        if us and us.lang != "en":
             _.push(us.lang)
         else:
-            _.push('en_US')
+            _.push("en_US")
 
         result = func(update, context, *pargs, **kwargs)
         _.pop()
         return result
+
     return wrapped
 
 
@@ -130,10 +132,10 @@ def game_locales(func):
             for player in player.game.players:
                 us = UserSetting.get(id=player.user.id)
 
-                if us and us.lang != 'en':
+                if us and us.lang != "en":
                     loc = us.lang
                 else:
-                    loc = 'en_US'
+                    loc = "en_US"
 
                 if loc in locales:
                     continue
@@ -147,6 +149,7 @@ def game_locales(func):
             _.pop()
 
         return result
+
     return wrapped
 
 
