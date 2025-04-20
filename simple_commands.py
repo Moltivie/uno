@@ -100,44 +100,6 @@ def modes(update: Update, context: CallbackContext):
 
 
 @user_locale
-def source(update: Update, context: CallbackContext):
-    """Handler for the /help command"""
-    source_text = _(
-        "This bot is Free Software and licensed under the AGPL. "
-        "The code is available here: \n"
-        "https://github.com/jh0ker/mau_mau_bot"
-    )
-    attributions = _(
-        "Attributions:\n"
-        "Draw icon by "
-        '<a href="http://www.faithtoken.com/">Faithtoken</a>\n'
-        "Pass icon by "
-        '<a href="http://delapouite.com/">Delapouite</a>\n'
-        "Originals available on http://game-icons.net\n"
-        "Icons edited by ɳick"
-    )
-
-    send_async(
-        context.bot,
-        update.message.chat_id,
-        text=source_text + "\n" + attributions,
-        parse_mode=ParseMode.HTML,
-        disable_web_page_preview=True,
-    )
-
-
-@user_locale
-def news(update: Update, context: CallbackContext):
-    """Handler for the /news command"""
-    send_async(
-        context.bot,
-        update.message.chat_id,
-        text=_("All news here: https://telegram.me/unobotnews"),
-        disable_web_page_preview=True,
-    )
-
-
-@user_locale
 def stats(update: Update, context: CallbackContext):
     user = update.message.from_user
     us = UserSetting.get(id=user.id)
@@ -178,7 +140,5 @@ def stats(update: Update, context: CallbackContext):
 
 def register():
     dispatcher.add_handler(CommandHandler("help", help_handler))
-    dispatcher.add_handler(CommandHandler("source", source))
-    dispatcher.add_handler(CommandHandler("news", news))
     dispatcher.add_handler(CommandHandler("stats", stats))
     dispatcher.add_handler(CommandHandler("modes", modes))
