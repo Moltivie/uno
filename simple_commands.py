@@ -18,13 +18,13 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 from telegram import ParseMode, Update
-from telegram.ext import CommandHandler, CallbackContext
+from telegram.ext import CallbackContext, CommandHandler
 
-from user_setting import UserSetting
-from utils import send_async
-from shared_vars import dispatcher
 from internationalization import _, user_locale
 from promotions import send_promotion
+from shared_vars import dispatcher
+from user_setting import UserSetting
+from utils import send_async
 
 
 @user_locale
@@ -62,10 +62,9 @@ def help_handler(update: Update, context: CallbackContext):
         "Press the <code>Current game: ...</code> button and select the "
         "group you want to play a card in.\n"
         "If you enjoy this bot, "
-        '<a href="https://telegram.me/storebot?start=mau_mau_bot">'
-        "rate me</a>, join the "
-        '<a href="https://telegram.me/unobotnews">update channel</a>'
-        " and buy an UNO card game."
+        "☕️ <b>Buy me a coffee:</b> "
+        '<a href="https://paypal.me/aiman2019">PayPal</a> '
+        "🍵 🎮 💖"
     )
 
     def _send():
