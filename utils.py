@@ -19,12 +19,14 @@
 
 
 import logging
+
 from telegram import Update
 from telegram.ext import CallbackContext
 
-from internationalization import _, __
+# Import _ and __ functions from internationalization module here
+# but don't import the module itself to avoid circular imports
 from mwt import MWT
-from shared_vars import gm, dispatcher
+from shared_vars import dispatcher, gm
 
 logger = logging.getLogger(__name__)
 
@@ -51,6 +53,9 @@ def display_name(user):
 
 def display_color(color):
     """Convert a color code to actual color name"""
+    # Import here to avoid circular import
+    from internationalization import _
+
     if color == "r":
         return _("{emoji} Red").format(emoji="❤️")
     if color == "b":
@@ -63,6 +68,9 @@ def display_color(color):
 
 def display_color_group(color, game):
     """Convert a color code to actual color name"""
+    # Import here to avoid circular import
+    from internationalization import __
+
     if color == "r":
         return __("{emoji} Red", game.translate).format(emoji="❤️")
     if color == "b":

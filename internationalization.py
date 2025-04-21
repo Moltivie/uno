@@ -24,8 +24,9 @@ from functools import wraps
 from pony.orm import db_session
 
 from locales import available_locales
-from shared_vars import gm
-from user_setting import UserSetting
+
+# Removed imports that caused circular dependencies
+# These will be imported inside the functions that need them
 
 GETTEXT_DOMAIN = "unobot"
 GETTEXT_DIR = "locales"
@@ -108,6 +109,9 @@ def user_locale(func):
     @wraps(func)
     @db_session
     def wrapped(update, context, *pargs, **kwargs):
+        # Import here to avoid circular import
+        from user_setting import UserSetting
+
         user = _user_chat_from_update(update)[0]
 
         with db_session:
@@ -129,6 +133,10 @@ def game_locales(func):
     @wraps(func)
     @db_session
     def wrapped(update, context, *pargs, **kwargs):
+        # Import here to avoid circular import
+        from shared_vars import gm
+        from user_setting import UserSetting
+
         user, chat = _user_chat_from_update(update)
         player = gm.player_for_user_in_chat(user, chat)
         locales = list()
@@ -159,6 +167,9 @@ def game_locales(func):
 
 
 def _user_chat_from_update(update):
+    # Import here to avoid circular import
+    from shared_vars import gm
+
     user = update.effective_user
     chat = update.effective_chat
 
