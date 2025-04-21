@@ -21,10 +21,11 @@
 import gettext
 from functools import wraps
 
-from locales import available_locales
 from pony.orm import db_session
-from user_setting import UserSetting
+
+from locales import available_locales
 from shared_vars import gm
+from user_setting import UserSetting
 
 GETTEXT_DOMAIN = "unobot"
 GETTEXT_DIR = "locales"
@@ -34,15 +35,19 @@ class _Underscore(object):
     """Class to emulate flufl.i18n behaviour, but with plural support"""
 
     def __init__(self):
-        self.translators = {
-            locale: gettext.GNUTranslations(
-                open(
-                    gettext.find(GETTEXT_DOMAIN, GETTEXT_DIR, languages=[locale]), "rb"
-                )
-            )
-            for locale in available_locales.keys()
-            if locale != "en_US"  # No translation file for en_US
-        }
+        self.translators = {}
+        for locale in available_locales.keys():
+            if locale == "en_US":  # No translation file for en_US
+                continue
+
+            locale_path = gettext.find(GETTEXT_DOMAIN, GETTEXT_DIR, languages=[locale])
+            if locale_path is not None:
+                try:
+                    with open(locale_path, "rb") as f:
+                        self.translators[locale] = gettext.GNUTranslations(f)
+                except (FileNotFoundError, IOError):
+                    pass  # Skip this translation if file can't be opened
+
         self.locale_stack = list()
 
     def push(self, locale):
