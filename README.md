@@ -25,3 +25,9 @@ Current gamemodes available: classic, fast and wild. Check the details with the 
 Then run the bot with `python3 bot.py`.
 
 Code documentation is minimal but there.
+
+## Development Notes
+
+- When using Pony ORM, entity models must be imported before `db.generate_mapping()` is called
+- Environment variables can be set in a `.env` file (see `.env.example` for template)
+- For deployment without translation files, set `ENABLE_TRANSLATIONS=false`

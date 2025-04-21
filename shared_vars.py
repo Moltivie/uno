@@ -18,15 +18,23 @@
 # along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 
-from config import TOKEN, WORKERS
 import logging
 import os
+
 from telegram.ext import Updater
 
-from game_manager import GameManager
+from config import TOKEN, WORKERS
 from database import db
+from game_manager import GameManager
 
+# Bind database before importing entities
 db.bind("sqlite", os.getenv("UNO_DB", "uno.sqlite3"), create_db=True)
+
+# Import all entities before generating mapping
+# This ensures all models are registered before the mapping is created
+from user_setting import UserSetting
+
+# Now generate mapping after all entities are imported
 db.generate_mapping(create_tables=True)
 
 gm = GameManager()
