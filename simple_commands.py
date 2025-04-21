@@ -75,7 +75,18 @@ def help_handler(update: Update, context: CallbackContext):
         )
         send_promotion(update.effective_chat)
 
-    context.dispatcher.run_async(_send)
+    try:
+        context.dispatcher.run_async(_send)
+    except Exception as e:
+        # Use send_async instead as a fallback
+        send_async(
+            context.bot,
+            update.message.chat_id,
+            text=help_text,
+            parse_mode=ParseMode.HTML,
+            disable_web_page_preview=True,
+        )
+        send_promotion(update.effective_chat)
 
 
 @user_locale
